@@ -9,7 +9,10 @@ from custom_interfaces.srv import SetLED
 class LEDPanelServerNode(Node):
     def __init__(self):
         super().__init__("set_led_server")
-        self.led_state_ = [0, 0, 0]
+        
+        self.declare_parameter("set_led_state", [0, 0, 0])
+        
+        self.led_state_ = self.get_parameter("set_led_state").value
         self.led_state_publisher = self.create_publisher(BatteryState, "led_state", 10)
         self.led_state_timer = self.create_timer(4, self.publish_led_state)
 
